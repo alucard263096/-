@@ -1,0 +1,61 @@
+<!--
+  Generated template for the VerifyCodePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+
+  <ion-toolbar  color="primary">
+      <ion-title>{{Lang["mobileverify"]}}</ion-title>
+      <ion-buttons left>
+        <button ion-button (click)="close()">
+          <ion-icon name="ios-arrow-back" ></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class="h6 txt-gray">
+    {{Lang["youmobile"]}} : {{mobile}}
+    <br />
+    {{Lang["receiveandinput"]}}
+  </div>
+  <div class="margin-top-40">
+    <div class="flex-row text-center">
+      <div class="flex-1">
+
+      </div>
+      <div class="padding-bottom margin-right" [class.noinput]="c1==''" [class.inputed]="c1!=''"  >
+        <ion-input type="text" class="code h2" #ic1 [(ngModel)]="c1"  maxlength="1" (keyup)="setFocus(2)"  ></ion-input>
+      </div>
+      <div class="padding-bottom margin-right-5" [class.noinput]="c2==''" [class.inputed]="c2!=''" >
+        <ion-input type="text" class="code h2"  #ic2 [(ngModel)]="c2"   maxlength="1" (keyup)="setFocus(3)"   ></ion-input>
+      </div>
+      <div class="padding-bottom margin-left-5" [class.noinput]="c3==''" [class.inputed]="c3!=''" >
+        <ion-input type="text" class="code h2"  #ic3 [(ngModel)]="c3"   maxlength="1"  (keyup)="setFocus(4)" ></ion-input>
+      </div>
+      <div class="padding-bottom  margin-left" [class.noinput]="c4==''" [class.inputed]="c4!=''" >
+        <ion-input type="text" class="code h2"  #ic4 [(ngModel)]="c4"   maxlength="1" (keyup)="verify()" ></ion-input>
+      </div>
+      <div class="flex-1">
+        
+      </div>
+    </div>
+    <div class="flex-row text-center">
+      <div class="flex-1">
+        
+      </div>
+      <div class="margin-top resend text-right">
+          <button ion-button clear  color="secondary" class="h5" *ngIf="reminder>0">{{reminder}}{{Lang["secondresend"]}}</button>
+          <button ion-button clear  color="primary" class="h5" *ngIf="reminder<=0" (click)="sendCode()">{{Lang["resend"]}}</button>
+      </div>
+      <div class="flex-1">
+        
+      </div>
+    </div>
+  </div>
+</ion-content>

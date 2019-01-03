@@ -1,0 +1,28 @@
+<!--
+  Generated template for the ContentPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+
+  
+    <ion-toolbar  color="primary">
+        <ion-title>{{title}}</ion-title>
+        <ion-buttons left>
+          <button ion-button (click)="close()">
+            <ion-icon name="ios-arrow-back" ></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div [innerHTML]='cont'>
+
+  </div>
+  <div *ngIf="cont=='noreturn'">请到后台的文本内容管理设置keycode为{{key}}</div>
+</ion-content>

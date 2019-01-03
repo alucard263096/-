@@ -1,0 +1,25 @@
+page-verify-code {
+  .noinput {
+    border-bottom: 3px solid $secondary-text-color;
+  }
+
+  .inputed {
+    border-bottom: 3px solid $primary-color;
+  }
+  .code{
+      width:px(30);
+      text-align: center !important;
+  }
+  .text-input-ios{
+      margin:0px;
+      padding:0px;
+      width:calc( 100% );
+  }
+  input{
+   
+    text-align: center !important;   
+  }
+  .resend{
+    width:px(200);
+  }
+}
