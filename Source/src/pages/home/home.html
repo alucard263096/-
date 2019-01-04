@@ -1,17 +1,79 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+  <ion-toolbar color="primary">
+    <ion-title>{{InstInfo.name}}</ion-title>
+    <ion-buttons right>
+      <button ion-button (click)="search()">
+        <ion-icon name="ios-search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content>
+  <div class="padding-20 white-block">
+    <ion-slides class="adv_banner">
+      <ion-slide *ngFor="let item of indexbanner" pager>
+        <img src="{{uploadpath}}indexbanner/{{item.img}}" />
+      </ion-slide>
+    </ion-slides>
+    <div class="margin-top">
+      <div class="flex-row text-center">
+        <div class="flex-1">
+          <div>
+            <img class="icon-50" src="{{uploadpath}}resource/{{res.icon1}}" />
+          </div>
+          <div class="h4 margin-top-5">
+            {{Lang["tab1"]}}
+          </div>
+        </div>
+        <div class="flex-1">
+          <div>
+            <img class="icon-50" src="{{uploadpath}}resource/{{res.icon2}}" />
+          </div>
+          <div class="h4 margin-top-5">
+            {{Lang["tab2"]}}
+          </div>
+        </div>
+        <div class="flex-1">
+          <div>
+            <img class="icon-50" src="{{uploadpath}}resource/{{res.icon3}}" />
+          </div>
+          <div class="h4 margin-top-5">
+            {{Lang["tab3"]}}
+          </div>
+        </div>
+        <div class="flex-1">
+          <div>
+            <img class="icon-50" src="{{uploadpath}}resource/{{res.icon4}}" />
+          </div>
+          <div class="h4 margin-top-5">
+            {{Lang["tab4"]}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="padding-20 white-block" *ngFor="let item of catlist">
+    <div class="flex-row flex-center">
+      <div>
+        <img class="icon-20" src="{{uploadpath}}cat/{{item.icon}}" />
+      </div>
+      <div class="h4 txt-bold margin-left flex-1">
+        {{item.name}}
+      </div>
+      <div class="h6 txt-gray" (click)="goCategory(item.id)">
+        更多
+      </div>
+    </div>
+    <div class="flex-row flex-wrap">
+      <div class="book margin-top-20" *ngFor="let book of item.booklist"  (click)="gotoBook(book.id)">
+          <div>
+            <img class="cover" src="{{uploadpath}}book/{{book.cover}}" />
+          </div>
+          <div class="h5 margin-top-5">{{book.name}}</div>
+      </div>
+    </div>
+  </div>
+
 </ion-content>

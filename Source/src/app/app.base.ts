@@ -31,7 +31,7 @@ export class AppBase {
     public InstInfo = { logo: "", memberlogo: "" };
     public MemberInfo = null;
 
-    public options = {};
+    public options = null;
 
     public firseonshow = true;
 
@@ -221,4 +221,9 @@ export class AppBase {
             return "";
         }
     }
+
+    gotoBook(id){
+        this.modal("IndexPage",{id:id});
+    }
+
 }

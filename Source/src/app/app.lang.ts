@@ -54,6 +54,16 @@ export class AppLang{
 
         Lang["islast"]="已经是最后了";
         Lang["reffrom"]="来 源";
+
+
+        Lang["tab1"]="tab1";
+        Lang["tab2"]="tab2";
+        Lang["tab3"]="tab3";
+        Lang["tab4"]="tab4";
+        
+        Lang["search"]="搜索";
+        Lang["inputyourkeyword"]="输入你要搜索的书名";
+        Lang["nosearchresult"]="找不到你要找的书哦";
         
         return Lang;
     }

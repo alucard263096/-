@@ -112,6 +112,7 @@ dark: #222);
   @return ($pxa * 1.0 * 100vw) / 375;
 }
 
+$px5:px(5);
 $px10:px(10);
 $px12:px(12);
 $px20:px(20);
@@ -220,6 +221,9 @@ $px20:px(20);
 .margin-top {
   margin-top: $px10;
 }
+.margin-top-5 {
+  margin-top: $px5;
+}
 
 .margin-top-20 {
   margin-top: $px20;
@@ -278,6 +282,10 @@ $px20:px(20);
 .icon-50 {
   width: px(50);
   height: px(50);
+}
+.icon-75 {
+  width: px(75);
+  height: px(75);
 }
 
 .fullheight {

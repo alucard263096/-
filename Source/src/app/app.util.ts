@@ -19,6 +19,7 @@ export class AppUtil {
         s = s.replace(/&nbsp;/g, " ");
         s = s.replace(/&#39;/g, "\'");
         s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/\n/g, "<br />");
         
         //s = s.replace(new RegExp("</p>", "gm"), "</p><br />");
 

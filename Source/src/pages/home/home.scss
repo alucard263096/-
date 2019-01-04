@@ -1,3 +1,21 @@
 page-home {
 
+    .adv_banner{
+        height: px(150);
+        border-radius: 5px;
+    }
+    .adv_banner img{
+        height: px(150);
+        width: 100%;
+        border-radius: 5px;
+    }
+
+
+    .book{
+        width:px(167.5);
+    }
+    .book .cover{
+        width:px(150);
+        height:px(200);
+    }
 }
