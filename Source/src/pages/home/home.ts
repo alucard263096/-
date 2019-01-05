@@ -27,6 +27,7 @@ export class HomePage  extends AppBase {
     });
     this.bookApi.catlistfull({}).then((catlist)=>{
       this.catlist=catlist;
+      this.gotoBook(6);
     });
   }
 

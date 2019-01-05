@@ -64,6 +64,15 @@ export class AppLang{
         Lang["search"]="搜索";
         Lang["inputyourkeyword"]="输入你要搜索的书名";
         Lang["nosearchresult"]="找不到你要找的书哦";
+
+        
+        Lang["index"]="目录";
+        Lang["nolastjie"]="没有上一章了";
+        Lang["nonextjie"]="没有下一章了";
+        Lang["fontsize"]="字体";
+        Lang["fontsize_s"]="小号";
+        Lang["fontsize_m"]="中号";
+        Lang["fontsize_l"]="大号";
         
         return Lang;
     }

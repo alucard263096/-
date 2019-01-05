@@ -6,22 +6,38 @@
 -->
 <ion-header>
 
-  
-    <ion-toolbar color="primary">
-        <ion-title>{{book.name}}</ion-title>
-        <ion-buttons left>
-          <button ion-button (click)="close()">
-            <ion-icon name="ios-arrow-back"></ion-icon>
-          </button>
-        </ion-buttons>
-      </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-title>{{book.name}}</ion-title>
+    <ion-buttons left>
+      <button ion-button (click)="close()">
+        <ion-icon name="ios-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content>
-  <div>
-    <img style="width:100%" src="{{uploadpath}}book/{{book.cover}}" />
+  <div class="padding  white-block">
+    <div class="text-center">
+      <img style="width:40%" src="{{uploadpath}}book/{{book.cover}}" />
+    </div>
+    <div class=" h6 txt-gray margin-top" [innerHtml]="decode(book.summary)"></div>
   </div>
-  <div class="padding h6 txt-gray white-block" [innerHtml]="decode(book.summary)"></div>
+  <div class="margin-top-20">
+    <div  class="padding  white-block">
+      <div class="flex-row flex-center">
+        <div class="margin-left tpblock margin-right"></div>
+        <div class="h4 txt-bold margin-left">{{Lang["index"]}}</div>
+      </div>
+      <div class="margin-top-20">
+        <div *ngFor="let pian of pianlist">
+          <div class="h4 margin-top-20">{{pian.name}}</div>
+          <div class="h5 margin-top margin-left"  *ngFor="let jie of pian.jielist" (click)="gotoContent(jie.id)">{{jie.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

@@ -296,7 +296,12 @@ body {
   color: $primary-text-color;
 }
 
+.tpblock{
+  height: $px20;
+  width: $px5;
+  background: $accent-color;
 
+}
 
 .primary-block {
   background: $primary-color;
@@ -437,4 +442,14 @@ body {
 
 input{
   border:0px;
+}
+
+.opt{
+  padding:px(3);
+  color:$secondary-text-color;
+}
+.opt-act{
+
+  padding:px(3) px(5) px(3) px(5);
+  color:$primary-color;
 }

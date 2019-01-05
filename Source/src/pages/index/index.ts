@@ -19,6 +19,7 @@ import { BookApi } from '../../providers/book.api';
 })
 export class IndexPage extends AppBase {
   book={name:""};
+  pianlist=[];
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController
     , public statusBar: StatusBar, public viewCtrl: ViewController, public toastCtrl: ToastController
     , public navParam: NavParams,public bookapi:BookApi) {
@@ -30,6 +31,14 @@ export class IndexPage extends AppBase {
   onMyShow(){
     this.bookapi.book({id:this.options.id}).then((book)=>{
       this.book=book;
+    });
+    this.bookapi.index({book_id:this.options.id}).then((pianlist)=>{
+      this.pianlist=pianlist;
+    });
+  }
+  gotoContent(jie_id){
+    this.modal("BookPage",{book_id:this.options.id,jie_id:jie_id},()=>{
+      this.onMyShow();
     });
   }
 

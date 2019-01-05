@@ -112,10 +112,19 @@ export class AppBase {
         ref.complete();
     }
     doRefresh(ref) {
-        setTimeout(() => {
-            this.onPullRefresh(ref);
-            ref.complete();
-        }, 2000);
+        this.onPullRefresh(ref);
+        // setTimeout(() => {
+        //     ref.complete();
+        // }, 1000);
+    }
+    onLoadMoreRefresh(ref) {
+        ref.complete();
+    }
+    doInfinite(infiniteScroll) {
+         this.onLoadMoreRefresh(infiniteScroll);
+        // setTimeout(() => {
+        //   infiniteScroll.complete();
+        // }, 1000);
     }
     back() {
         this.navCtrl.pop();
@@ -161,9 +170,10 @@ export class AppBase {
         if (msg == "") {
             return;
         }
+        console.log(((msg.length / 3) + 1) * 1000);
         const toast = this.toastCtrl.create({
             message: msg,
-            duration: ((msg / 3) + 1) * 1000
+            duration: ((msg.length / 3) + 1) * 1000
         });
         toast.present();
     }
