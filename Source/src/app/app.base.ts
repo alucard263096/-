@@ -2,10 +2,12 @@ import { ApiConfig } from "./api.config";
 import { AppUtil } from "./app.util";
 import { AppLang } from "./app.lang";
 import { StatusBar } from '@ionic-native/status-bar';
-import { NavController, ModalController, ViewController, App, ToastController, NavParams, AlertController } from "ionic-angular";
+import { NavController, ModalController, ViewController, ToastController, NavParams, AlertController } 
+from "ionic-angular";
 import { InstApi } from "../providers/inst.api";
 import { MemberApi } from "../providers/member.api";
 import { MyApp } from "./app.component";
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 
 
 export class AppBase {
@@ -29,7 +31,7 @@ export class AppBase {
     public Lang = [];
     public res = [];
     public InstInfo = { logo: "", memberlogo: "" };
-    public MemberInfo = null;
+    public MemberInfo = {id:"",name:"",photo:"",introduce:""};
 
     public options = null;
 
@@ -74,6 +76,16 @@ export class AppBase {
             console.log(instinfo);
         });
     }
+    getMemberInfo(){
+        AppBase.memberapi.info({}).then((memberinfo) => {
+            if (memberinfo==null|| memberinfo.mobile == undefined || memberinfo.mobile == "") {
+                //alert("?");
+                memberinfo=null;
+            }
+            this.MemberInfo = memberinfo;
+            
+        });
+    }
     getResources() {
         AppBase.instapi.resources({}, false).then((res) => {
             this.res = res;
@@ -96,6 +108,7 @@ export class AppBase {
             ApiConfig.SetToken(token);
             AppBase.memberapi.info({}).then((memberinfo) => {
                 if (memberinfo==null|| memberinfo.mobile == undefined || memberinfo.mobile == "") {
+                    //alert("?");
                     memberinfo=null;
                 }
                 this.MemberInfo = memberinfo;
@@ -130,7 +143,7 @@ export class AppBase {
         this.navCtrl.pop();
     }
     close() {
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss({});
     }
     return(data) {
         this.viewCtrl.dismiss(data);
@@ -141,6 +154,7 @@ export class AppBase {
     modal(pageobj, param, callback = null) {
         var modal = this.modalCtrl.create(pageobj, param);
         modal.onDidDismiss((data, role) => {
+            this.ionViewDidEnter();
             if (callback != null) {
                 ///alert(data);
                 callback(data);
@@ -235,5 +249,21 @@ export class AppBase {
     gotoBook(id){
         this.modal("IndexPage",{id:id});
     }
+    uploadFile(transfer: FileTransfer, filepath: string, module: string) {
+        let options: FileUploadOptions = {
+            fileKey: 'img'
+        }
 
+
+        var fileTransfer: FileTransferObject = transfer.create();
+        return fileTransfer.upload(filepath, ApiConfig.getFileUploadAPI() + "?field=img&module=" + module, options)
+            .then((data) => {
+                // success
+                //alert(data);
+                return data.response.toString().split("|~~|")[1];
+            }, (err) => {
+                alert("upload faile");
+                // error
+            })
+    }
 }

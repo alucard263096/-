@@ -15,6 +15,8 @@ import { InstApi } from '../providers/inst.api';
 import { MemberApi } from '../providers/member.api';
 import { SQLite } from '@ionic-native/sqlite';
 import { HTTP } from '@ionic-native/http';
+import { Camera } from '@ionic-native/camera';
+import { FileTransfer } from '@ionic-native/file-transfer';
 
 
 
@@ -57,6 +59,8 @@ import { HTTP } from '@ionic-native/http';
     SplashScreen,
     SQLite,
     HTTP,
+    Camera,
+    FileTransfer,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

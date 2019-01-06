@@ -407,7 +407,9 @@ body {
 .hr {
   border-bottom: px(1) solid rgba(211, 211, 211, 0.5);
 }
-
+.border-bottom{
+  border-bottom: px(1) solid rgba(211, 211, 211, 0.5);
+}
 .width-50 {
   width: 50%;
 }
@@ -441,6 +443,9 @@ body {
 
 
 input{
+  border:0px;
+}
+textarea{
   border:0px;
 }
 

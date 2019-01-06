@@ -74,6 +74,22 @@ export class AppLang{
         Lang["fontsize_m"]="中号";
         Lang["fontsize_l"]="大号";
         
+        Lang["lazenointroduce"]="这个人好懒，连自我介绍都没有";
+        Lang["editmemberinfo"]="编辑个人信息";
+        Lang["photo"]="头像";
+        Lang["photoselect"]="选择头像";
+        Lang["takephoto"]="拍照";
+        Lang["takefromalbum"]="从相册选取";
+        Lang["cancel"]="取消";
+        Lang["takerandom"]="图片库随机";
+        Lang["nickname"]="昵称";
+        Lang["mobile"]="手机";
+        Lang["introduce"]="简介";
+        Lang["pleasefillintroduce"]="简单介绍一下你自己就叫简介";
+        Lang["changeaccount"]="切换账户";
+        Lang["surechangeaccount"]="是否确认退出登录？";
+
+
         return Lang;
     }
 

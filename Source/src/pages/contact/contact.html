@@ -1,17 +1,17 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Contact
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-  </ion-list>
+  <div class="padding-20 bg-primary" (click)="editInfo()">
+    <div class="flex-row" >
+      <div>
+        <img class="icon-75 memberphoto-border" src="{{uploadpath}}member/{{MemberInfo.photo}}" *ngIf="MemberInfo!=null&&MemberInfo.photo!=''" />
+        <img class="icon-75 memberphoto-border" src="{{uploadpath}}inst/{{InstInfo.logo}}" *ngIf="MemberInfo==null||MemberInfo.photo==''"  />
+      </div>
+      <div class="padding"></div>
+      <div class="flex-1">
+        <div class="margin-top h4 txt-bold txt-white">{{MemberInfo.name}}</div>
+        <div class="margin-top h6 txt-white">
+          {{MemberInfo.introduce==''?Lang["lazenointroduce"]:MemberInfo.introduce}}
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>
