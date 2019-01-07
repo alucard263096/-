@@ -20,6 +20,7 @@ import { BookApi } from '../../providers/book.api';
 export class IndexPage extends AppBase {
   book={name:""};
   pianlist=[];
+  lastread=null;
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController
     , public statusBar: StatusBar, public viewCtrl: ViewController, public toastCtrl: ToastController
     , public navParam: NavParams,public bookapi:BookApi) {
@@ -34,6 +35,11 @@ export class IndexPage extends AppBase {
     });
     this.bookapi.index({book_id:this.options.id}).then((pianlist)=>{
       this.pianlist=pianlist;
+    });
+    this.bookapi.readlist({book_id:this.options.id}).then((list)=>{
+      if(list.length>0){
+        this.lastread=list[0];
+      }
     });
   }
   gotoContent(jie_id){

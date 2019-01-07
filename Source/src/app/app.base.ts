@@ -8,6 +8,7 @@ import { InstApi } from "../providers/inst.api";
 import { MemberApi } from "../providers/member.api";
 import { MyApp } from "./app.component";
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { ReturnStatement } from "@angular/compiler";
 
 
 export class AppBase {
@@ -108,8 +109,12 @@ export class AppBase {
             ApiConfig.SetToken(token);
             AppBase.memberapi.info({}).then((memberinfo) => {
                 if (memberinfo==null|| memberinfo.mobile == undefined || memberinfo.mobile == "") {
-                    //alert("?");
+                    
                     memberinfo=null;
+                    if(this.needlogin==true){
+                        this.modal("LoginPage",{});
+                        return;
+                    }
                 }
                 this.MemberInfo = memberinfo;
                 this.onMyShow();

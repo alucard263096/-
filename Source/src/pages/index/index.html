@@ -30,12 +30,23 @@
     <div  class="padding  white-block">
       <div class="flex-row flex-center">
         <div class="margin-left tpblock margin-right"></div>
-        <div class="h4 txt-bold margin-left">{{Lang["index"]}}</div>
+        <div class="flex-1 h4 txt-bold margin-left">{{Lang["index"]}}</div>
+        <div *ngIf="lastread!=null">
+            <button ion-button clear small (click)="gotoContent(lastread.jie_id)">{{Lang["continueread"]}}{{lastread["jie_name"]}}</button>
+        </div>
       </div>
       <div class="margin-top-20">
         <div *ngFor="let pian of pianlist">
           <div class="h4 margin-top-20">{{pian.name}}</div>
-          <div class="h5 margin-top margin-left"  *ngFor="let jie of pian.jielist" (click)="gotoContent(jie.id)">{{jie.name}}</div>
+          <div class="margin-top margin-left flex-row flex-center"  *ngFor="let jie of pian.jielist" (click)="gotoContent(jie.id)">
+            <div class="h5 flex-1">
+              {{jie.name}}
+            </div>
+            <div *ngIf="jie.jucount>0">
+              <div class="h6 txt-gray" [class.txt-primary]="jie.jucount<=jie.transcount">{{Lang["transrate"]}} {{jie.transcount*100.0/jie.jucount}}%</div>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>

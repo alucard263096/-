@@ -1,3 +1,12 @@
 page-book {
-
+    .notrans{
+        border-bottom: px(1) solid rgba(211, 211, 211, 0.5);
+    }
+    .trans{
+        border-bottom: px(1) solid #FFC107;
+    }
+    .biggap{
+        height:px(300);
+        width:px(375);
+    }
 }

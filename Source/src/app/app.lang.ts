@@ -88,7 +88,9 @@ export class AppLang{
         Lang["pleasefillintroduce"]="简单介绍一下你自己就叫简介";
         Lang["changeaccount"]="切换账户";
         Lang["surechangeaccount"]="是否确认退出登录？";
-
+        Lang["continueread"]="继续观赏";
+        Lang["transrate"]="翻译率";
+        
 
         return Lang;
     }

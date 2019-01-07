@@ -23,6 +23,7 @@ export class LoginPage extends AppBase {
 
     super(navCtrl, modalCtrl, viewCtrl, statusBar, toastCtrl,alertCtrl, navParam);
       this.needlogin=false;
+      alert(1);
   }
 
   onMyShow(){

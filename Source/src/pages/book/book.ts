@@ -1,5 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController, ToastController, AlertController, MenuController } from 'ionic-angular';
+import {
+  IonicPage, NavController, NavParams, ModalController, ViewController, ToastController,
+  AlertController, MenuController, FabContainer
+} from 'ionic-angular';
 import { AppBase } from '../../app/app.base';
 import { StatusBar } from '@ionic-native/status-bar';
 import { BookApi } from '../../providers/book.api';
@@ -21,18 +24,21 @@ import { ReturnStatement } from '@angular/compiler';
 })
 export class BookPage extends AppBase {
   @ViewChild(Content) ctx: Content;
+  @ViewChild(Content) fab: FabContainer;
+
+  showmy=false;
   isloading = false;
   book = {};
   jie = { name: "", pian_name: "" };
   julist = [];
   jielist = [];
 
-  menus=[];
+  menus = [];
 
   lastjie = null;
   nextjie = null;
 
-  fontsize="";
+  fontsize = "";
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController
     , public statusBar: StatusBar, public viewCtrl: ViewController, public toastCtrl: ToastController
@@ -42,13 +48,14 @@ export class BookPage extends AppBase {
 
   }
 
-  onMyLoad(){
-    var fontsize=this.store("fontsize");
-    if(fontsize==null){
-      fontsize="h5";
-      this.store("fontsize",fontsize);
+  onMyLoad() {
+    var fontsize = this.store("fontsize");
+    if (fontsize == null) {
+      fontsize = "h5";
+      this.store("fontsize", fontsize);
     }
-    this.fontsize=fontsize;
+    //alert(fontsize);
+    this.fontsize = fontsize;
   }
 
   onMyShow() {
@@ -76,6 +83,8 @@ export class BookPage extends AppBase {
     this.bookApi.jie({ id: this.options.jie_id }).then((jie) => {
       this.jie = jie;
     });
+    this.bookApi.readjie({ book_id: this.options.book_id, jie_id: this.options.jie_id });
+
     this.isloading = true;
     this.bookApi.content({ jie_id: this.options.jie_id }).then((julist) => {
       var duanluo = [];
@@ -159,18 +168,47 @@ export class BookPage extends AppBase {
     ref.complete();
   }
 
-  toggoleMenu() {
-    this.menuCtl.toggle();
+
+  setFontsize(fontsize) {
+    this.fontsize = fontsize;
+    this.store("fontsize", fontsize);
+  }
+  closefab(event, fab: FabContainer) {
+    fab.close();
   }
 
-  setFontsize(fontsize){
-    fontsize=fontsize;
-    if(fontsize==null){
-      fontsize="h5";
-      this.store("fontsize",fontsize);
-    }
-    this.fontsize=fontsize;
-  }
+  showFontSetting() {
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Lightsaber color');
 
+    alert.addInput({
+      type: 'radio',
+      label: this.Lang["fontsize_s"],
+      value: 'h5',
+      checked: this.fontsize=="h5"
+    });
+    alert.addInput({
+      type: 'radio',
+      label: this.Lang["fontsize_m"],
+      value: 'h4',
+      checked: this.fontsize=="h4"
+    });
+    alert.addInput({
+      type: 'radio',
+      label: this.Lang["fontsize_l"],
+      value: 'h3',
+      checked: this.fontsize=="h3"
+    });
+
+    alert.addButton(this.Lang["cancel"]);
+    alert.addButton({
+      text: this.Lang["ok"],
+      handler: data => {
+        
+        this.setFontsize(data);
+      }
+    });
+    alert.present();
+  }
 }
 
