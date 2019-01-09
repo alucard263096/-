@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, Directive } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import {HttpModule} from "@angular/http";
 
@@ -17,6 +17,8 @@ import { SQLite } from '@ionic-native/sqlite';
 import { HTTP } from '@ionic-native/http';
 import { Camera } from '@ionic-native/camera';
 import { FileTransfer } from '@ionic-native/file-transfer';
+import { DirectivesModule } from '../directives/directives.module';
+import { AutosizeDirective } from '../directives/autosize/autosize';
 
 
 
@@ -27,11 +29,12 @@ import { FileTransfer } from '@ionic-native/file-transfer';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
   ],
   imports: [
     HttpModule,
     BrowserModule,
+    DirectivesModule,
     IonicModule.forRoot(MyApp,{
       mode:"ios",
       backButtonText:"",

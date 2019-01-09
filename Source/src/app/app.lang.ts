@@ -1,3 +1,5 @@
+
+
 export class AppLang{
     
 
@@ -90,6 +92,33 @@ export class AppLang{
         Lang["surechangeaccount"]="是否确认退出登录？";
         Lang["continueread"]="继续观赏";
         Lang["transrate"]="翻译率";
+        Lang["translate"]="翻译";
+        Lang["comment"]="评论";
+        Lang["inputtranslate"]="输入我的翻译";
+        Lang["inputcomment"]="输入我的评论";
+        
+        Lang["lastsent"]="上一条";
+        Lang["save"]="保存";
+        Lang["savesuccess"]="保存成功";
+        Lang["nextsent"]="下一条";
+        Lang["thisisfirst"]="没有上一条了";
+        Lang["thisislast"]="没有下一条了";
+        Lang["hotcomment"]="热门";
+        Lang["guren"]="名家";
+        Lang["mycomment"]="我评";
+        Lang["norecord"]="还没有哦～～";
+        Lang["inputyoucomment"]="我的见解是～～～";
+        Lang["sendcomment"]="发表";
+
+        Lang["oldbook"]="古文";
+        Lang["mytranslate"]="今译";
+        
+        Lang["ping"]="评";
+        Lang["yi"]="译";
+        Lang["zi"]="字";
+
+        Lang["duanping"]="章";
+        Lang["duancomment"]="评";
         
 
         return Lang;

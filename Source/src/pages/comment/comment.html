@@ -1,0 +1,35 @@
+<!--
+  Generated template for the CommentPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+
+    <ion-toolbar color="primary">
+        <ion-title>{{Lang["comment"]}}</ion-title>
+        <ion-buttons left>
+          <button ion-button (click)="close()">
+            <ion-icon name="ios-arrow-back"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="padding h5" *ngIf="options!=null">
+    {{options.content}}
+  </div>
+  <div class="padding white-block">
+    <textarea #textarea class="width-100" autosize (input)="resize()" [(ngModel)]="comment" placeholder="{{Lang['inputyoucomment']}}"></textarea>
+  </div>
+  <div style="height:50px;"></div>
+  <div class="fixedbottom">
+    <div class="padding-20">
+        <button ion-button (click)="send()" block>{{Lang["sendcomment"]}}</button>
+    </div>
+  </div>
+</ion-content>

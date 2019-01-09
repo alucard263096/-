@@ -26,7 +26,9 @@ export class BookPage extends AppBase {
   @ViewChild(Content) ctx: Content;
   @ViewChild(Content) fab: FabContainer;
 
-  showmy=false;
+  showduan=false;
+  showmy = false;
+  showcomment = false;
   isloading = false;
   book = {};
   jie = { name: "", pian_name: "" };
@@ -40,12 +42,26 @@ export class BookPage extends AppBase {
 
   fontsize = "";
 
+  m1 = "translate";
+  m2 = "hotcomment";
+
+  nowju = { name: "", jie_id: "", id: "", trans: "" };
+  nowtrans = "";
+
+  jugucomment = [];
+  juhotcomment = [];
+  jucomment = [];
+  jumycomment = [];
+
+  jiecommentlist=[];
+
+  contenttype="G";
+
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController
     , public statusBar: StatusBar, public viewCtrl: ViewController, public toastCtrl: ToastController
     , public navParam: NavParams, public bookApi: BookApi, public menuCtl: MenuController) {
 
     super(navCtrl, modalCtrl, viewCtrl, statusBar, toastCtrl, alertCtrl, navParam);
-
   }
 
   onMyLoad() {
@@ -79,11 +95,33 @@ export class BookPage extends AppBase {
     });
   }
 
+  loadjucomment() {
+    if (this.showcomment == true&&this.nowju.id!="") {
+      var ju_id = this.nowju.id;
+      this.bookApi.commentlist({ type: "G", ju_id: ju_id }).then((commentlist) => {
+        this.jugucomment = commentlist;
+      });
+      this.bookApi.commentlist({ type: "C", ju_id: ju_id }).then((commentlist) => {
+        this.jucomment = commentlist;
+      });
+      this.bookApi.commentlist({ type: "C", orderby: "commentcount desc limit 0,3", ju_id: ju_id }).then((commentlist) => {
+        this.juhotcomment = commentlist;
+      });
+      this.bookApi.commentlist({ type: "C",member_id:this.MemberInfo.id, ju_id: ju_id }).then((commentlist) => {
+        this.jumycomment = commentlist;
+      });
+    }
+  }
+
   loadju() {
     this.bookApi.jie({ id: this.options.jie_id }).then((jie) => {
       this.jie = jie;
     });
     this.bookApi.readjie({ book_id: this.options.book_id, jie_id: this.options.jie_id });
+
+    this.bookApi.commentlist({  ju_id: -1,jie_id:this.options.jie_id }).then((commentlist) => {
+      this.jiecommentlist = commentlist;
+    });
 
     this.isloading = true;
     this.bookApi.content({ jie_id: this.options.jie_id }).then((julist) => {
@@ -107,7 +145,31 @@ export class BookPage extends AppBase {
       }
       this.ctx.scrollToTop();
       this.isloading = false;
+      this.findfirstnocomment();
+      console.log(this.nowju);
     });
+
+  }
+
+  findfirstnocomment() {
+    var lastsend = { name: "", jie_id: "", id: "", trans: "" };
+    for (var i = 0; i < this.julist.length; i++) {
+      for (var j = 0; j < this.julist[i].length; j++) {
+
+        if (this.julist[i][j].isbr_value == 'N') {
+          if (this.julist[i][j].trans == '') {
+            this.nowju = this.julist[i][j];
+            this.nowtrans = this.nowju.trans;
+            this.loadjucomment();
+            return;
+          }
+          lastsend = this.julist[i][j];
+        }
+      }
+    }
+    this.nowju = lastsend;
+    this.nowtrans = this.nowju.trans;
+    this.loadjucomment();
   }
   loadlastnext() {
     this.lastjie = null;
@@ -185,30 +247,105 @@ export class BookPage extends AppBase {
       type: 'radio',
       label: this.Lang["fontsize_s"],
       value: 'h5',
-      checked: this.fontsize=="h5"
+      checked: this.fontsize == "h5"
     });
     alert.addInput({
       type: 'radio',
       label: this.Lang["fontsize_m"],
       value: 'h4',
-      checked: this.fontsize=="h4"
+      checked: this.fontsize == "h4"
     });
     alert.addInput({
       type: 'radio',
       label: this.Lang["fontsize_l"],
       value: 'h3',
-      checked: this.fontsize=="h3"
+      checked: this.fontsize == "h3"
     });
 
     alert.addButton(this.Lang["cancel"]);
     alert.addButton({
       text: this.Lang["ok"],
       handler: data => {
-        
+
         this.setFontsize(data);
       }
     });
     alert.present();
   }
+  updateTrans() {
+    this.nowju.trans = this.nowtrans.trim();
+    this.bookApi.trans({ jie_id: this.nowju.jie_id, ju_id: this.nowju.id, content: this.nowju.trans });
+    //this.toast(this.Lang["savesuccess"]);
+    for (var i = 0; i < this.julist.length; i++) {
+      for (var j = 0; j < this.julist[i].length; j++) {
+        if (this.julist[i][j].id == this.nowju.id) {
+          this.julist[i][j] = this.nowju;
+          break;
+        }
+      }
+    }
+  }
+
+  toggoleContentType(){
+    this.contenttype=this.contenttype=="G"?"N":"G";
+  }
+
+  lastsent() {
+    var last = null;
+    for (var i = 0; i < this.julist.length; i++) {
+      for (var j = 0; j < this.julist[i].length; j++) {
+        if (this.julist[i][j].isbr_value == 'N') {
+          if (this.julist[i][j].id == this.nowju.id) {
+
+            if (last == null) {
+              this.toast(this.Lang["thisisfirst"]);
+            } else {
+
+              this.nowju = last;
+              this.nowtrans = this.nowju.trans;
+              this.loadjucomment();
+            }
+            return;
+          }
+          last = this.julist[i][j];
+        }
+      }
+    }
+  }
+  nextsent() {
+    var next = false;
+    for (var i = 0; i < this.julist.length; i++) {
+      for (var j = 0; j < this.julist[i].length; j++) {
+        if (this.julist[i][j].isbr_value == 'N') {
+          if (next == true) {
+            this.nowju = this.julist[i][j];
+            this.nowtrans = this.nowju.trans;
+            this.loadjucomment();
+            return;
+          }
+          if (this.julist[i][j].id == this.nowju.id) {
+            next = true;
+          }
+        }
+      }
+    }
+    this.toast(this.Lang["thisislast"]);
+  }
+  duan(){
+    this.showmy=false;
+    this.showcomment=false;
+    this.showduan=!this.showduan;
+  }
+  ping(){
+    this.showduan=false;
+    this.showmy=false;
+    this.showcomment=!this.showcomment;
+  }
+  yi(){
+    this.showduan=false;
+    this.showcomment=false;
+    this.showmy=!this.showmy;
+  }
+  //
 }
 

@@ -14,46 +14,53 @@
       </button>
     </ion-buttons>
     <ion-buttons right>
-        <button ion-button (click)="toggoleMenu()">
-          <ion-icon name="ios-settings" ></ion-icon>
-        </button>
-      </ion-buttons>
+      <button ion-button (click)="toggoleContentType()">
+        {{contenttype=='G'?Lang["oldbook"]:Lang["mytranslate"]}}
+      </button>
+    </ion-buttons>
   </ion-toolbar>
-  
+
 </ion-header>
 
 
-<ion-content #ctx >
+<ion-content #ctx>
   <!--
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>-->
-  <ion-menu [content]="mycontent" >
-      <ion-content>
-        <div class="padding">
-            <div class="h5 txt-bold">{{Lang["fontsize"]}}</div>
-            <div class="margin-top flex-row flex-bottom">
-              <div class="h5 opt margin-right" [class.opt-act]="fontsize=='h5'" (click)="setFontsize('h5')">{{Lang["fontsize_s"]}}</div>
-              <div class="h4 opt  margin-left margin-right" [class.opt-act]="fontsize=='h4'" (click)="setFontsize('h4')">{{Lang["fontsize_m"]}}</div>
-              <div class="h3 opt margin-left" [class.opt-act]="fontsize=='h3'" (click)="setFontsize('h3')">{{Lang["fontsize_l"]}}</div>
-              <div class="flex-1"></div>
-            </div>
+  <ion-menu [content]="mycontent">
+    <ion-content>
+      <div class="padding">
+        <div class="h5 txt-bold">{{Lang["fontsize"]}}</div>
+        <div class="margin-top flex-row flex-bottom">
+          <div class="h5 opt margin-right" [class.opt-act]="fontsize=='h5'" (click)="setFontsize('h5')">{{Lang["fontsize_s"]}}</div>
+          <div class="h4 opt  margin-left margin-right" [class.opt-act]="fontsize=='h4'" (click)="setFontsize('h4')">{{Lang["fontsize_m"]}}</div>
+          <div class="h3 opt margin-left" [class.opt-act]="fontsize=='h3'" (click)="setFontsize('h3')">{{Lang["fontsize_l"]}}</div>
+          <div class="flex-1"></div>
         </div>
-      </ion-content>
-    </ion-menu>
-    
-  <div class="padding white-block"  (swipe)="swipeEvent($event)">
-    <div *ngFor="let duan of julist" class="margin-top">
-      <span *ngFor="let ju of duan" 
-      [class.h3]="fontsize=='h3'" 
-      [class.h4]="fontsize=='h4'" 
-      [class.h5]="fontsize=='h5'"
-      [class.notrans]="ju.trans==''"
-      [class.trans]="ju.trans!=''"
-      >{{ju.name}}</span>
+      </div>
+    </ion-content>
+  </ion-menu>
+
+  <div class="padding white-block" (swipe)="swipeEvent($event)">
+    <div *ngIf="contenttype=='G'">
+      <div *ngFor="let duan of julist" class="margin-top">
+        <span *ngFor="let ju of duan" [class.h3]="fontsize=='h3'" [class.h4]="fontsize=='h4'" [class.h5]="fontsize=='h5'"
+          [class.notrans]="ju.trans==''" [class.trans]="ju.trans!=''" (click)="nowju=ju;loadjucomment();">{{ju.name}}
+          <sup *ngIf="ju.commentcount>0" class="commentcount txt-gray">[{{ju.commentcount}}] </sup></span>
+      </div>
+    </div>
+    <div *ngIf="contenttype=='N'">
+      <div *ngFor="let duan of julist" class="margin-top">
+        <span *ngFor="let ju of duan" [class.h3]="fontsize=='h3'" [class.h4]="fontsize=='h4'" [class.h5]="fontsize=='h5'"
+          [class.notrans]="ju.trans==''" [class.trans]="ju.trans!=''" (click)="nowju=ju;loadjucomment();"
+          [class.transcolor]='ju.trans==""'>{{ju.trans!=""?ju.trans:ju.name}}
+          <sup *ngIf="ju.commentcount>0" class="commentcount txt-gray">[{{ju.commentcount}}] </sup></span>
+      </div>
     </div>
     <div style="height:50px;"></div>
-    <div *ngIf="showmy==true" class="biggap" ></div>
+    <div *ngIf="showmy==true" class="biggap"></div>
+    <div *ngIf="showcomment==true" class="biggap2"></div>
   </div>
   <!--
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
@@ -61,14 +68,183 @@
   </ion-infinite-scroll>-->
 
   <ion-fab right bottom #fab>
-      <button ion-fab color="secondary" ><ion-icon name="book"></ion-icon></button>
-      <ion-fab-list side="left">
-        <button ion-fab  (click)="closefab($event, fab)"><ion-icon name="book"></ion-icon></button>
-        <button ion-fab  (click)="showmy=true;closefab($event, fab)"><ion-icon name="create"></ion-icon></button>
-        <button ion-fab (click)="showFontSetting();closefab($event, fab)"><ion-icon name="search"></ion-icon></button>
-      </ion-fab-list>
-    </ion-fab>
-  <ion-fab bottom edge >
-    <div class="biggap"></div>
+    <button ion-fab color="secondary">
+      <ion-icon name="book"></ion-icon>
+    </button>
+    <ion-fab-list side="left">
+      <button color="primary" ion-fab (click)="duan();closefab($event, fab)">
+        {{Lang["duanping"]}}
+      </button>
+      <button color="primary" ion-fab (click)="ping();loadjucomment();closefab($event, fab)">
+        {{Lang["ping"]}}
+      </button>
+      <button color="primary" ion-fab (click)="yi();closefab($event, fab)">
+        {{Lang["yi"]}}
+      </button>
+      <button color="primary" ion-fab (click)="showFontSetting();closefab($event, fab)">
+        {{Lang["zi"]}}
+      </button>
+    </ion-fab-list>
   </ion-fab>
+  <div class="fixedbottom animated  fadeInUp" *ngIf="showmy==true">
+    <ion-scroll class="biggap white-block border-top" scrollY="true">
+      <div class="flex-row bg-gray" *ngIf="false">
+        <div class="flex-1" (click)="m1='translate'">
+          <div class="flex-row">
+            <div class="flex-1"></div>
+            <div class="tab" [class.tab-active]="m1=='translate'">{{Lang["translate"]}}</div>
+            <div class="flex-1"></div>
+          </div>
+        </div>
+        <div class="flex-1" (click)="m1='comment'">
+          <div class="flex-row">
+            <div class="flex-1"></div>
+            <div class="tab" [class.tab-active]="m1=='comment'">{{Lang["comment"]}}</div>
+            <div class="flex-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="padding">
+        <div class="h4 txt-bold">
+          {{nowju.name}}
+        </div>
+        <div class="flex-row flex-center margin-top">
+          <div class="flex-1">
+            <button ion-button clear small (click)="updateTrans();lastsent();">{{Lang["lastsent"]}}</button>
+          </div>
+          <div class="flex-1 text-center" *ngIf="false">
+            <button ion-button small (click)="updateTrans()">{{Lang["save"]}}</button>
+          </div>
+          <div class="flex-1 text-right">
+            <button ion-button clear small (click)="updateTrans();nextsent();">{{Lang["nextsent"]}}</button>
+          </div>
+        </div>
+        <div *ngIf="m1=='translate'">
+          <textarea class="width-100" rows="5" placeholder='{{Lang["inputtranslate"]}}' [(ngModel)]="nowtrans"></textarea>
+        </div>
+      </div>
+    </ion-scroll>
+  </div>
+  <div class="fixedbottom animated  fadeInUp" *ngIf="showduan==true">
+    <ion-scroll class="white-block fullwh">
+      <div style="height:50px;"></div>
+      <div class="padding">
+        <div class="flex-row">
+          <div class="h5 flex-1">{{Lang["comment"]}}({{jiecommentlist.length}})</div>
+          <div class="txt-gray" (click)="sendComment(options.book_id,options.jie_id,-1,book.name+' '+jie.name);">{{Lang["sendcomment"]}}</div>
+        </div>
+      </div>
+      <div *ngIf="jiecommentlist.length==0">
+        <div class="text-center margin-top-20">
+          <img class="icon-50" src="{{uploadpath}}resource/{{res.norecord}}" />
+        </div>
+        <div class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+      </div>
+      <div *ngIf="jiecommentlist.length>0">
+        <div class="padding border-bottom" *ngFor="let comment of jiecommentlist">
+          <div class="flex-row">
+            <div class="margin-right">
+              <img class="icon-40 radius-50" src="{{getMemberPhoto(comment.member_photo)}}" />
+            </div>
+            <div class="margin-left">
+              <div class="h5 txt-bold">{{comment.member_name}}</div>
+              <div class="txt-gray h6">{{comment.comment_time_formatting}}</div>
+              <div class="margin-top-20" [innerHtml]="decode(comment.content)"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="jucomment.length>7" class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+      </div>
+    </ion-scroll>
+  </div>
+  <div class="fixedbottom animated  fadeInUp" *ngIf="showcomment==true">
+    <div class="biggap2 white-block border-top">
+      <div style="height:20px;padding:3px;" class="onerow h6">{{nowju.name}}</div>
+      <div class="flex-row bg-gray commenttab">
+        <div class="flex-1" (click)="m2='hotcomment'">
+          <div class="flex-row">
+            <div class="flex-1"></div>
+            <div class="tab" [class.tab-active]="m2=='hotcomment'">{{Lang["hotcomment"]}}</div>
+            <div class="flex-1"></div>
+          </div>
+        </div>
+        <div class="flex-1" (click)="m2='guren'">
+          <div class="flex-row">
+            <div class="flex-1"></div>
+            <div class="tab" [class.tab-active]="m2=='guren'">{{Lang["guren"]}}</div>
+            <div class="flex-1"></div>
+          </div>
+        </div>
+        <div class="flex-1" (click)="m2='mycomment'">
+          <div class="flex-row">
+            <div class="flex-1"></div>
+            <div class="tab" [class.tab-active]="m2=='mycomment'">{{Lang["mycomment"]}}</div>
+            <div class="flex-1"></div>
+          </div>
+        </div>
+      </div>
+      <ion-scroll scrollY="true" class="commentscroll">
+        <div *ngIf="m2=='hotcomment'">
+          <div *ngIf="jucomment.length==0">
+            <div class="text-center margin-top-20">
+              <img class="icon-50" src="{{uploadpath}}resource/{{res.norecord}}" />
+            </div>
+            <div class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+          </div>
+          <div *ngIf="jucomment.length>0">
+            <div class="padding border-bottom" *ngFor="let comment of jucomment">
+              <div class="flex-row">
+                <div class="margin-right">
+                  <img class="icon-40 radius-50" src="{{getMemberPhoto(comment.member_photo)}}" />
+                </div>
+                <div class="margin-left">
+                  <div class="h5 txt-bold">{{comment.member_name}}</div>
+                  <div class="txt-gray h6">{{comment.comment_time_formatting}}</div>
+                  <div class="margin-top-20" [innerHtml]="decode(comment.content)"></div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="jucomment.length>7" class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+          </div>
+        </div>
+        <div *ngIf="m2=='guren'">
+
+          <div *ngIf="jugucomment.length==0">
+            <div class="text-center margin-top-20">
+              <img class="icon-50" src="{{uploadpath}}resource/{{res.norecord}}" />
+            </div>
+            <div class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+          </div>
+        </div>
+        <div *ngIf="m2=='mycomment'">
+          <ion-scroll scrollY="true" class="mycommentscroll">
+            <div *ngIf="jumycomment.length==0">
+              <div class="text-center margin-top-20">
+                <img class="icon-50" src="{{uploadpath}}resource/{{res.norecord}}" />
+              </div>
+              <div class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+            </div>
+
+            <div *ngIf="jumycomment.length>0">
+              <div class="padding border-bottom" *ngFor="let comment of jumycomment">
+                <div class="flex-row">
+                  <div class="margin-right">
+                    <img class="icon-40 radius-50" src="{{getMemberPhoto(comment.member_photo)}}" />
+                  </div>
+                  <div class="margin-left">
+                    <div class="h5 txt-bold">{{comment.member_name}}</div>
+                    <div class="txt-gray h6">{{comment.comment_time_formatting}}</div>
+                    <div class="margin-top-20" [innerHtml]="decode(comment.content)"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ion-scroll>
+          <div style="height:30px;padding-top:7px" class="text-center txt-gray" (click)="sendComment(options.book_id,options.jie_id,nowju.id,nowju.name)">
+            {{Lang["sendcomment"]}}
+          </div>
+        </div>
+      </ion-scroll>
+    </div>
+  </div>
 </ion-content>

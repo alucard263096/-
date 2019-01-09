@@ -2,8 +2,7 @@
   <div class="padding-20 bg-primary" (click)="editInfo()">
     <div class="flex-row" >
       <div>
-        <img class="icon-75 memberphoto-border" src="{{uploadpath}}member/{{MemberInfo.photo}}" *ngIf="MemberInfo!=null&&MemberInfo.photo!=''" />
-        <img class="icon-75 memberphoto-border" src="{{uploadpath}}inst/{{InstInfo.logo}}" *ngIf="MemberInfo==null||MemberInfo.photo==''"  />
+        <img class="icon-75 memberphoto-border" src="{{getMemberPhoto(MemberInfo.photo)}}"  />
       </div>
       <div class="padding"></div>
       <div class="flex-1">

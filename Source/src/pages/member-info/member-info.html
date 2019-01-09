@@ -24,8 +24,7 @@
       <div class="txt-gray">{{Lang["photo"]}}</div>
       <div class="flex-1"></div>
       <div (click)="selectPhoto()"> 
-        <img class="icon-30" src="{{uploadpath}}member/{{MemberInfo.photo}}" *ngIf="MemberInfo!=null&&MemberInfo.photo!=''" />
-        <img class="icon-30" src="{{uploadpath}}inst/{{InstInfo.logo}}" *ngIf="MemberInfo==null||MemberInfo.photo==''"  />
+        <img class="icon-30 radius-50" src="{{getMemberPhoto(MemberInfo.photo)}}"  />
       </div>
     </div>
   </div>

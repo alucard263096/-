@@ -29,6 +29,7 @@ export class HomePage  extends AppBase {
       this.catlist=catlist;
       //this.gotoBook(6);
     });
+    //this.sendComment(0,0,0,"hello");
   }
 
 

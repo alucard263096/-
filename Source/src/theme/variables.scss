@@ -107,6 +107,7 @@ dark: #222);
 @import "roboto";
 @import "noto-sans";
 
+@import "../assets/animate.css";
 
 @function px($pxa) {
   @return ($pxa * 1.0 * 100vw) / 375;
@@ -352,7 +353,10 @@ body {
   color: #FF5252;
 }
 
-
+.fullwh{
+  width: 100vw;
+  height: 100vh;;
+}
 
 .radius-50 {
   border-radius: 50%;
@@ -406,6 +410,9 @@ body {
 
 .hr {
   border-bottom: px(1) solid rgba(211, 211, 211, 0.5);
+}
+.border-top{
+  border-top: px(1) solid rgba(211, 211, 211, 0.5);
 }
 .border-bottom{
   border-bottom: px(1) solid rgba(211, 211, 211, 0.5);

@@ -271,4 +271,14 @@ export class AppBase {
                 // error
             })
     }
+    getMemberPhoto(photo:string){
+        if(photo==null||photo==undefined||photo.trim()==""){
+            return this.uploadpath+"inst/"+this.InstInfo.logo;
+        }else{
+            return this.uploadpath+"member/"+photo;
+        }
+    }
+    sendComment(book_id,jie_id,ju_id,content){
+        this.modal("CommentPage",{book_id,jie_id,ju_id,content});
+    }
 }

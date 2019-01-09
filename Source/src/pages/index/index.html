@@ -43,7 +43,7 @@
               {{jie.name}}
             </div>
             <div *ngIf="jie.jucount>0">
-              <div class="h6 txt-gray" [class.txt-primary]="jie.jucount<=jie.transcount">{{Lang["transrate"]}} {{jie.transcount*100.0/jie.jucount}}%</div>
+              <div class="h6 txt-gray" [class.txt-primary]="jie.jucount<=jie.transcount">{{Lang["transrate"]}}  {{ (jie.transcount*100.0/jie.jucount).toFixed(0)}}%</div>
             </div>
           </div>
           

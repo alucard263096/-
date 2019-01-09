@@ -6,7 +6,32 @@ page-book {
         border-bottom: px(1) solid #FFC107;
     }
     .biggap{
-        height:px(300);
+        height:200px;
         width:px(375);
+    }
+    .biggap2{
+        height:270px;
+        width:px(375);
+    }
+    .commenttab{
+        height: 42px;
+    }
+    .commentscroll{
+        height: calc( 250px - 42px );
+    }
+    .mycommentscroll{
+        height: calc( 250px - 42px - 30px );
+    }
+
+    .tab{
+        padding-top:px(10);
+        padding-bottom:px(10);
+        border-bottom: px(2) solid transparent;
+    }
+    .tab-active{
+        border-bottom: px(2) solid #FFC107;
+    }
+    .transcolor{
+        color:transparent;
     }
 }
