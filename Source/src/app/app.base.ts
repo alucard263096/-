@@ -2,22 +2,24 @@ import { ApiConfig } from "./api.config";
 import { AppUtil } from "./app.util";
 import { AppLang } from "./app.lang";
 import { StatusBar } from '@ionic-native/status-bar';
-import { NavController, ModalController, ViewController, ToastController, NavParams, AlertController } 
-from "ionic-angular";
+import { NavController, ModalController, ViewController, ToastController, NavParams, AlertController }
+    from "ionic-angular";
 import { InstApi } from "../providers/inst.api";
 import { MemberApi } from "../providers/member.api";
 import { MyApp } from "./app.component";
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { ReturnStatement } from "@angular/compiler";
+import { TabsPage } from "../pages/tabs/tabs";
 
 
 export class AppBase {
-    public needlogin=true;
+    public needlogin = true;
 
     public static myapp: MyApp = null;
     public static instapi: InstApi = null;
     public static memberapi: MemberApi = null;
     public static UNICODE = "test";
+    public static Tabs:TabsPage=null;
 
     public statusBar: StatusBar = null;
     public navCtrl: NavController = null;
@@ -32,7 +34,7 @@ export class AppBase {
     public Lang = [];
     public res = [];
     public InstInfo = { logo: "", memberlogo: "" };
-    public MemberInfo = {id:"",name:"",photo:"",introduce:""};
+    public MemberInfo = { id: "", name: "", photo: "", introduce: "" };
 
     public options = null;
 
@@ -55,7 +57,7 @@ export class AppBase {
         this.alertCtrl = alertCtrl;
         this.navParams = navParams;
 
-        if(navParams!=null){
+        if (navParams != null) {
             console.log(navParams.data);
         }
     }
@@ -77,14 +79,14 @@ export class AppBase {
             console.log(instinfo);
         });
     }
-    getMemberInfo(){
+    getMemberInfo() {
         AppBase.memberapi.info({}).then((memberinfo) => {
-            if (memberinfo==null|| memberinfo.mobile == undefined || memberinfo.mobile == "") {
+            if (memberinfo == null || memberinfo.mobile == undefined || memberinfo.mobile == "") {
                 //alert("?");
-                memberinfo=null;
+                memberinfo = null;
             }
             this.MemberInfo = memberinfo;
-            
+
         });
     }
     getResources() {
@@ -95,24 +97,27 @@ export class AppBase {
     ionViewDidEnter() {
         this.setStatusBar();
         this.Lang = AppLang.getLang();
+        if(AppBase.Tabs!=null){
+            AppBase.Tabs.Lang=this.Lang;
+        }
 
         var token = window.localStorage.getItem("token");
         //alert(token);
         if (token == null) {
-            if(this.needlogin==true){
-                this.modal("LoginPage",{});
-            }else{
+            if (this.needlogin == true) {
+                this.modal("LoginPage", {});
+            } else {
 
                 this.onMyShow();
             }
         } else {
             ApiConfig.SetToken(token);
             AppBase.memberapi.info({}).then((memberinfo) => {
-                if (memberinfo==null|| memberinfo.mobile == undefined || memberinfo.mobile == "") {
-                    
-                    memberinfo=null;
-                    if(this.needlogin==true){
-                        this.modal("LoginPage",{});
+                if (memberinfo == null || memberinfo.mobile == undefined || memberinfo.mobile == "") {
+
+                    memberinfo = null;
+                    if (this.needlogin == true) {
+                        this.modal("LoginPage", {});
                         return;
                     }
                 }
@@ -139,7 +144,7 @@ export class AppBase {
         ref.complete();
     }
     doInfinite(infiniteScroll) {
-         this.onLoadMoreRefresh(infiniteScroll);
+        this.onLoadMoreRefresh(infiniteScroll);
         // setTimeout(() => {
         //   infiniteScroll.complete();
         // }, 1000);
@@ -168,8 +173,8 @@ export class AppBase {
         modal.present();
     }
 
-    content(title,key){
-        this.modal("ContentPage",{title,key});
+    content(title, key) {
+        this.modal("ContentPage", { title, key });
     }
 
     decode(val) {
@@ -205,26 +210,26 @@ export class AppBase {
         });
         alert.present();
     }
-    confirm(msg,confirmcallback){
+    confirm(msg, confirmcallback) {
 
-    const alert = this.alertCtrl.create({
-        title: this.Lang["tips"],
-        subTitle: msg,
-        buttons: [{
-          text: this.Lang["cancel"],
-          handler: () => {
-            console.log('Disagree clicked');
-  
-            confirmcallback(false);
-          }
-        },{
-          text: this.Lang["ok"],
-          handler: () => {
-            confirmcallback(true);
-          }
-        }]
-      });
-      alert.present();
+        const alert = this.alertCtrl.create({
+            title: this.Lang["tips"],
+            subTitle: msg,
+            buttons: [{
+                text: this.Lang["cancel"],
+                handler: () => {
+                    console.log('Disagree clicked');
+
+                    confirmcallback(false);
+                }
+            }, {
+                text: this.Lang["ok"],
+                handler: () => {
+                    confirmcallback(true);
+                }
+            }]
+        });
+        alert.present();
     }
     checkLogin(callback) {
         if (this.MemberInfo == null) {
@@ -239,7 +244,7 @@ export class AppBase {
             callback();
         }
     }
-    hasLogin(){
+    hasLogin() {
         return this.MemberInfo != null;
     }
     store(name, key = null) {
@@ -251,8 +256,8 @@ export class AppBase {
         }
     }
 
-    gotoBook(id){
-        this.modal("IndexPage",{id:id});
+    gotoBook(id) {
+        this.modal("IndexPage", { id: id });
     }
     uploadFile(transfer: FileTransfer, filepath: string, module: string) {
         let options: FileUploadOptions = {
@@ -271,14 +276,23 @@ export class AppBase {
                 // error
             })
     }
-    getMemberPhoto(photo:string){
-        if(photo==null||photo==undefined||photo.trim()==""){
-            return this.uploadpath+"inst/"+this.InstInfo.logo;
-        }else{
-            return this.uploadpath+"member/"+photo;
+    getMemberPhoto(photo: string) {
+        if (photo == null || photo == undefined || photo.trim() == "") {
+            return this.uploadpath + "inst/" + this.InstInfo.logo;
+        } else {
+            return this.uploadpath + "member/" + photo;
         }
     }
-    sendComment(book_id,jie_id,ju_id,content){
-        this.modal("CommentPage",{book_id,jie_id,ju_id,content});
+    sendComment(book_id, jie_id, ju_id, content) {
+        this.modal("CommentPage", { book_id, jie_id, ju_id, content });
+    }
+
+    gotoContent(book_id, jie_id) {
+        if (jie_id <= 0) {
+            return;
+        }
+        this.modal("BookPage", { book_id: book_id, jie_id: jie_id }, () => {
+            this.onMyShow();
+        });
     }
 }

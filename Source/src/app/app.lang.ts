@@ -5,6 +5,9 @@ export class AppLang{
 
     static getLang(){
         var Lang=[];
+
+
+
         Lang["recommend"]="推荐";
         Lang["general"]="综合";
         Lang["focuson"]="关注";
@@ -91,6 +94,7 @@ export class AppLang{
         Lang["changeaccount"]="切换账户";
         Lang["surechangeaccount"]="是否确认退出登录？";
         Lang["continueread"]="继续观赏";
+        Lang["startread"]="开始观赏";
         Lang["transrate"]="翻译率";
         Lang["translate"]="翻译";
         Lang["comment"]="评论";
@@ -120,6 +124,7 @@ export class AppLang{
         Lang["duanping"]="章";
         Lang["duancomment"]="评";
         
+        Lang["mysheet"]="我的书架";
 
         return Lang;
     }

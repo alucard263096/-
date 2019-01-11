@@ -19,6 +19,8 @@ import { Camera } from '@ionic-native/camera';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { DirectivesModule } from '../directives/directives.module';
 import { AutosizeDirective } from '../directives/autosize/autosize';
+import { SheetPage } from '../pages/sheet/sheet';
+import { TopicPage } from '../pages/topic/topic';
 
 
 
@@ -28,6 +30,8 @@ import { AutosizeDirective } from '../directives/autosize/autosize';
     MyApp,
     AboutPage,
     ContactPage,
+    SheetPage,
+    TopicPage,
     HomePage,
     TabsPage,
   ],
@@ -52,6 +56,8 @@ import { AutosizeDirective } from '../directives/autosize/autosize';
     MyApp,
     AboutPage,
     ContactPage,
+    SheetPage,
+    TopicPage,
     HomePage,
     TabsPage
   ],

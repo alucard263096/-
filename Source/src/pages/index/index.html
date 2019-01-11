@@ -22,33 +22,83 @@
 <ion-content>
   <div class="padding  white-block">
     <div class="text-center">
-      <img style="width:40%" src="{{uploadpath}}book/{{book.cover}}" />
+      <img *ngIf="book.id!=''" style="width:40%" (click)="gotoContent(options.id, pianlist.length==0?1:(lastread!=null?lastread.jie_id:pianlist[0].jielist[0].id))" src="{{uploadpath}}book/{{book.cover}}" />
     </div>
     <div class=" h6 txt-gray margin-top" [innerHtml]="decode(book.summary)"></div>
   </div>
-  <div class="margin-top-20">
-    <div  class="padding  white-block">
+  <div >
+    <div class="flex-row bg-gray">
+      <div class="flex-1" (click)="m1='index'">
+        <div class="flex-row">
+          <div class="flex-1"></div>
+          <div class="tab" [class.tab-active]="m1=='index'">{{Lang["index"]}}</div>
+          <div class="flex-1"></div>
+        </div>
+      </div>
+      <div class="flex-1" (click)="m1='comment'">
+        <div class="flex-row">
+          <div class="flex-1"></div>
+          <div class="tab" [class.tab-active]="m1=='comment'">{{Lang["comment"]}}</div>
+          <div class="flex-1"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="padding  white-block" *ngIf="m1=='index'">
       <div class="flex-row flex-center">
-        <div class="margin-left tpblock margin-right"></div>
-        <div class="flex-1 h4 txt-bold margin-left">{{Lang["index"]}}</div>
+        <div class="margin-left tpblock margin-right" *ngIf="false"></div>
+        <div class="flex-1 h4 txt-bold margin-left" *ngIf="false">{{Lang["index"]}}</div>
         <div *ngIf="lastread!=null">
-            <button ion-button clear small (click)="gotoContent(lastread.jie_id)">{{Lang["continueread"]}}{{lastread["jie_name"]}}</button>
+          <button ion-button clear small (click)="gotoContent(options.id,lastread.jie_id)">{{Lang["continueread"]}}{{lastread["jie_name"]}}</button>
+        </div>
+        <div *ngIf="lastread==null&&pianlist.length>0">
+          <button ion-button clear small (click)="gotoContent(options.id,pianlist[0].jielist[0].id)">{{Lang["startread"]}}{{pianlist[0].jielist[0].jie_name}}</button>
         </div>
       </div>
       <div class="margin-top-20">
         <div *ngFor="let pian of pianlist">
           <div class="h4 margin-top-20">{{pian.name}}</div>
-          <div class="margin-top margin-left flex-row flex-center"  *ngFor="let jie of pian.jielist" (click)="gotoContent(jie.id)">
+          <div class="margin-top margin-left flex-row flex-center" *ngFor="let jie of pian.jielist" (click)="gotoContent(options.id,jie.id)">
             <div class="h5 flex-1">
               {{jie.name}}
             </div>
             <div *ngIf="jie.jucount>0">
-              <div class="h6 txt-gray" [class.txt-primary]="jie.jucount<=jie.transcount">{{Lang["transrate"]}}  {{ (jie.transcount*100.0/jie.jucount).toFixed(0)}}%</div>
+              <div class="h6 txt-gray" [class.txt-primary]="jie.jucount<=jie.transcount">{{Lang["transrate"]}} {{
+                (jie.transcount*100.0/jie.jucount).toFixed(0)}}%</div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>
+    <ion-scroll class="white-block fullwh" *ngIf="m1=='comment'">
+      <div class="padding">
+        <div class="flex-row">
+          <div class="h5 flex-1">{{Lang["comment"]}}({{commentlist.length}})</div>
+          <div class="txt-gray" (click)="sendComment(options.id,-1,-1,book.name);">{{Lang["sendcomment"]}}</div>
+        </div>
+      </div>
+      <div *ngIf="commentlist.length==0">
+        <div class="text-center margin-top-20">
+          <img class="icon-50" src="{{uploadpath}}resource/{{res.norecord}}" />
+        </div>
+        <div class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+      </div>
+      <div *ngIf="commentlist.length>0">
+        <div class="padding border-bottom" *ngFor="let comment of commentlist">
+          <div class="flex-row">
+            <div class="margin-right">
+              <img class="icon-40 radius-50" src="{{getMemberPhoto(comment.member_photo)}}" />
+            </div>
+            <div class="margin-left">
+              <div class="h5 txt-bold">{{comment.member_name}}</div>
+              <div class="txt-gray h6">{{comment.comment_time_formatting}}</div>
+              <div class="margin-top-20" [innerHtml]="decode(comment.content)"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="commentlist.length>7" class="margin-top-20 text-center h6 txt-gray">{{Lang["norecord"]}}</div>
+      </div>
+    </ion-scroll>
   </div>
 </ion-content>

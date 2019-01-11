@@ -23,15 +23,4 @@ page-book {
         height: calc( 250px - 42px - 30px );
     }
 
-    .tab{
-        padding-top:px(10);
-        padding-bottom:px(10);
-        border-bottom: px(2) solid transparent;
-    }
-    .tab-active{
-        border-bottom: px(2) solid #FFC107;
-    }
-    .transcolor{
-        color:transparent;
-    }
 }
